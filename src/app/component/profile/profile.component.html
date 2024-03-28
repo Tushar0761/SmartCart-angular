@@ -1,0 +1,225 @@
+<section
+  *ngIf="!isLoggedIn"
+  class="text-center h-100 d-flex justify-content-center align-items-center py-4"
+>
+  <div class="alert alert-danger">
+    Please Login To see this page.
+
+    <br />
+    <a routerLink="/login">Login Here</a>
+  </div>
+</section>
+
+<section
+  *ngIf="isLoggedIn"
+  class="h-100 w-100 d-flex justify-content-center -items-center py-4"
+>
+  <div class="d-flex flex-column gap-2">
+    <button
+      class="btn"
+      [ngClass]="{
+        'btn-success': section.account,
+        'btn-outline-success': !section.account
+      }"
+      (click)="show('account')"
+    >
+      Account
+    </button>
+    <button
+      class="btn"
+      [ngClass]="{
+        'btn-success': section.wishlist,
+        'btn-outline-success': !section.wishlist
+      }"
+      (click)="show('wishlist')"
+    >
+      Wishlist
+    </button>
+    <button
+      class="btn"
+      [ngClass]="{
+        'btn-success': section.order,
+        'btn-outline-success': !section.order
+      }"
+      (click)="show('order')"
+    >
+      Order History
+    </button>
+
+    <button class="btn btn-danger" (click)="logout()">Logout</button>
+  </div>
+  <div class="card ms-1 p-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
+    <div id="account" *ngIf="section.account">
+      <div class="d-flex">
+        <div class="ms-2">
+          <span class="fs-3">Tushar Panchal</span>
+          <br />
+          Email : <span>tushar@gmail.com</span> <br />
+          Phone : <span>456789123</span>
+        </div>
+        <div class="ms-auto">
+          <button type="button" class="btn btn-outline-primary">
+            Edit
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-pencil-square"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <hr />
+      <div class="card p-3">
+        <h3>Address</h3>
+        <div class="d-flex">
+          <div class="col-3">
+            <span>Home</span>
+          </div>
+          <div class="ms-2">
+            <span>Address : </span> <span>123, xyz street, abc city</span>
+            <br />
+            <span>Pincode : </span> <span>123456</span>
+          </div>
+          <div class="ms-auto">
+            <button type="button" class="btn btn-outline-primary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-pencil-square"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div class="d-flex">
+          <div class="col-3">
+            <span>Office</span>
+          </div>
+          <div class="ms-2">
+            <span>Address : </span> <span>123, xyz street, abc city</span>
+            <br />
+            <span>Pincode : </span> <span>123456</span>
+          </div>
+          <div class="ms-auto">
+            <button type="button" class="btn btn-outline-primary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-pencil-square"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3">
+          <button class="btn btn-primary">Add new Address +</button>
+        </div>
+      </div>
+    </div>
+    <!-- wishlist section -->
+    <div *ngIf="section.wishlist">
+      <div class="border rounded-4 d-flex mx-1 my-2">
+        <div class="col-2 m-1">
+          <img
+            src="../../../assets/Img/echo.jpg"
+            alt="product img"
+            style="width: 100%; aspect-ratio: 1; object-fit: contain"
+          />
+        </div>
+        <div>
+          <div class="fw-bold">Product 1</div>
+          <div>A fantastic product.</div>
+          <div>Price : 12 ₹</div>
+        </div>
+      </div>
+      <div class="border rounded-4 d-flex mx-1 my-2">
+        <div class="col-2 m-1">
+          <img
+            src="../../../assets/Img/echo.jpg"
+            alt="product img"
+            style="width: 100%; aspect-ratio: 1; object-fit: contain"
+          />
+        </div>
+        <div>
+          <div class="fw-bold">Product 1</div>
+          <div>A fantastic product.</div>
+          <div>Price : 12 ₹</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- order sections  -->
+
+    <div *ngIf="section.order">
+      <div class="fs-3">Your Orders</div>
+
+      <!-- order card -->
+      <div class="card border rounded-3 border-primary m-2 p-2">
+        <span class="fs-4">Order ID : </span>
+        <div class="details d-flex gap-3">
+          <span class="fs-6">Date : 16 Dec 2023</span>
+          <span class="fs-6">Order Status : shipped</span>
+          <span>Payment Status : Done</span>
+        </div>
+        <hr />
+        <div>
+          <span>Shipping Address :</span>
+          <span>abc,xyz,abc,454545</span>
+        </div>
+        <div>
+          <div class="border rounded-4 d-flex mx-1 my-2">
+            <div class="col-2 m-1">
+              <img
+                src="../../../assets/Img/echo.jpg"
+                alt="product img"
+                style="width: 100%; aspect-ratio: 1; object-fit: contain"
+              />
+            </div>
+            <div>
+              <span class="fw-bold">Product 1</span>
+              <div class="d-flex gap-3">
+                <p>Price : 12 ₹</p>
+                <p>Quantity : 4</p>
+              </div>
+            </div>
+
+            <div class="ms-auto my-auto mx-3 ps text-center">Total : 450 ₹</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

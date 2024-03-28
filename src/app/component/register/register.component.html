@@ -15,16 +15,16 @@
   *ngIf="!isLoggedIn"
   class="h-100 d-flex justify-items-center align-items-center"
 >
-  <div class="mx-auto card py-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
-    <div class="container text-center fs-1">Login</div>
+  <div class="mx-auto my-3 card py-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
+    <div class="container text-center fs-1">Register</div>
     <div>
       <div class="d-flex p-2 align-items-center">
-        <span class="col-3"> Email </span>
+        <span class="col-3"> Username </span>
         <div class="col-9">
           <input
-            type="email"
+            type="text"
             class="form-control"
-            name="email"
+            name="username"
             [(ngModel)]="formData.username"
           />
           <div
@@ -32,6 +32,23 @@
             *ngIf="!validateData.username[0]"
           >
             {{ validateData.username[1] }}
+          </div>
+        </div>
+      </div>
+      <div class="d-flex p-2 align-items-center">
+        <span class="col-3"> Email </span>
+        <div class="col-9">
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="formData.email"
+          />
+          <div
+            class="rounded-3 bg-danger w-auto px-2 py-1 mt-1 text-white"
+            *ngIf="!validateData.email[0]"
+          >
+            {{ validateData.email[1] }}
           </div>
         </div>
       </div>
@@ -52,18 +69,35 @@
           </div>
         </div>
       </div>
+      <div class="d-flex p-2 align-items-center">
+        <span class="col-3"> Confirm Password </span>
+        <div class="col-9">
+          <input
+            type="password"
+            class="form-control"
+            name="confirmPassword"
+            [(ngModel)]="formData.confirmPassword"
+          />
+          <div
+            class="rounded-3 bg-danger w-auto px-2 py-1 mt-1 text-white"
+            *ngIf="!validateData.confirmPassword[0]"
+          >
+            {{ validateData.confirmPassword[1] }}
+          </div>
+        </div>
+      </div>
       <div class="text-center">
         <button
           class="col-4 col-md-2 btn btn-warning rounded-5"
-          (click)="login()"
+          (click)="register()"
         >
-          Login
+          Register
         </button>
       </div>
     </div>
     <div class="text-center">
-      Don't have Account?
-      <a routerLink="/register">Create New Account Here. </a>
+      Already have an account?
+      <a routerLink="/login">Login here</a>
     </div>
   </div>
 </section>

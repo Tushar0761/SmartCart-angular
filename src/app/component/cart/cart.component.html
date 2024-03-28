@@ -1,0 +1,78 @@
+<section
+  *ngIf="!isLoggedIn"
+  class="text-center h-100 d-flex justify-content-center align-items-center py-4"
+>
+  <div class="alert alert-danger">
+    Please Login To see this page.
+
+    <br />
+    <a routerLink="/login">Login Here</a>
+  </div>
+</section>
+
+<section
+  *ngIf="isLoggedIn"
+  class="h-100 d-flex justify-items-center align-items-center"
+>
+  <div class="mx-auto card py-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
+    <div class="border rounded-4 d-flex mx-1 my-2">
+      <div class="col-2 m-1">
+        <img
+          src="../../../assets/Img/echo.jpg"
+          alt="product img"
+          style="width: 100%; aspect-ratio: 1; object-fit: contain"
+        />
+      </div>
+      <div>
+        <h3>Product 1</h3>
+        <div class="d-flex gap-3">
+          <p>Price : 12 ₹</p>
+        </div>
+      </div>
+      <div class="btn-group ms-auto my-auto">
+        <button class="btn btn-success">+</button>
+        <div class="mx-2 my-auto">10</div>
+        <button class="btn btn-danger">-</button>
+      </div>
+
+      <div class="my-auto mx-3 ps text-center fs-5">
+        Total
+        <br />
+        450 ₹
+      </div>
+    </div>
+
+    <!-- second -->
+    <div class="border d-flex mx-1 my-2 rounded-4">
+      <div class="col-2 m-1">
+        <img
+          src="../../../assets/Img/echo.jpg"
+          alt="product img"
+          style="width: 100%; aspect-ratio: 1; object-fit: contain"
+        />
+      </div>
+      <div>
+        <h3>Product 1</h3>
+        <div class="d-flex gap-3">
+          <p>Price : 12 ₹</p>
+        </div>
+      </div>
+      <div class="btn-group ms-auto my-auto">
+        <button class="btn btn-success">+</button>
+        <div class="mx-2 my-auto">10</div>
+        <button class="btn btn-danger">-</button>
+      </div>
+      <div class="my-auto mx-3 text-center fs-5">
+        Total
+        <br />
+        450
+      </div>
+    </div>
+    <button
+      class="btn btn-primary ms-auto mx-3 col-6 col-md-4 col-lg-3"
+      (click)="placeOrder()"
+    >
+      Order
+    </button>
+  </div>
+</section>
