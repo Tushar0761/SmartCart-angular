@@ -25,13 +25,13 @@
             type="email"
             class="form-control"
             name="email"
-            [(ngModel)]="formData.username"
+            [(ngModel)]="formData.identifier"
           />
           <div
             class="rounded-3 bg-danger w-auto px-2 py-1 mt-1 text-white"
-            *ngIf="!validateData.username[0]"
+            *ngIf="!validateData.identifier[0]"
           >
-            {{ validateData.username[1] }}
+            {{ validateData.identifier[1] }}
           </div>
         </div>
       </div>
@@ -52,7 +52,15 @@
           </div>
         </div>
       </div>
+
       <div class="text-center">
+        <div
+          *ngIf="!validateData.login[0]"
+          class="rounded-3 bg-danger px-2 py-1 my-1 text-white"
+        >
+          {{ validateData.login[1] }}
+        </div>
+
         <button
           class="col-4 col-md-2 btn btn-warning rounded-5"
           (click)="login()"

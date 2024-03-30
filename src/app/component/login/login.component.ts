@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,38 +8,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  isLoggedIn = localStorage.getItem('isLoggedIn') ? true : false;
-  logout() {
-    localStorage.removeItem('isLoggedIn');
+  constructor(private router: Router, private auth: AuthService) {}
 
-    window.location.reload();
-  }
+  isLoggedIn = localStorage.getItem('isLoggedIn') ? true : false;
 
   title = 'SmartCart.V16';
   formData = {
-    username: '',
+    identifier: '',
     password: '',
   };
-  constructor(private router: Router) {}
   login() {
     if (!this.validateForm()) {
-      console.log(
-        'Invalid form data. Please correct the errors and try again.'
-      );
       return;
     }
-    console.log('Form data is valid. Proceeding with registration.');
 
-    localStorage.setItem('isLoggedIn', JSON.stringify(1));
-    this.router.navigate(['/profile']);
+    this.auth.login(this.formData).subscribe({
+      next: (response: any) => {
+        this.validateData.login[0] = true;
+        localStorage.setItem('isLoggedIn', 'true');
+        let token = response.jwt;
+
+        localStorage.setItem('_token', JSON.stringify(token));
+        this.router.navigate(['/profile']);
+      },
+      error: (error) => {
+        this.validateData.login[0] = false;
+        this.validateData.login[1] =
+          error?.error?.error?.message || 'Something Wrong...Please Try again';
+      },
+    });
 
     // perform registration logic
   }
 
   validateData = {
     all: false,
-    username: [true, ''],
+    identifier: [true, ''],
     password: [true, ''],
+    login: [true, ''],
   };
 
   validateForm() {
@@ -50,14 +57,14 @@ export class LoginComponent {
     return this.validateData.all;
   }
   validateEmail() {
-    if (!this.formData.username.includes('@')) {
+    if (!this.formData.identifier.includes('@')) {
       // handle error for invalid email
-      this.validateData.username[0] = false;
-      this.validateData.username[1] = 'Please Provide valid username.';
+      this.validateData.identifier[0] = false;
+      this.validateData.identifier[1] = 'Please Provide valid username.';
 
       return false;
     }
-    this.validateData.username[0] = true;
+    this.validateData.identifier[0] = true;
 
     return true;
   }
@@ -73,4 +80,13 @@ export class LoginComponent {
 
     return true;
   }
+
+  logout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('_token');
+
+    window.location.reload();
+  }
 }
+
+// http://localhost:1337/api::product.product?page=1&pageSize=10&sort=product_name:ASC

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -16,22 +18,40 @@ export class RegisterComponent {
     confirmPassword: '',
   };
 
+  constructor(private auth: AuthService, private router: Router) {}
+
   logout() {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('_token');
 
     window.location.reload();
   }
 
   register() {
     if (!this.validateForm()) {
-      console.log(
-        'Invalid form data. Please correct the errors and try again.'
-      );
       return;
     }
-    console.log('Form data is valid. Proceeding with registration.');
 
-    localStorage.setItem('isLoggedIn', JSON.stringify(1));
+    let data = {
+      username: this.formData.username,
+      email: this.formData.email,
+      password: this.formData.password,
+    };
+
+    this.auth.register(data).subscribe({
+      next: (response: any) => {
+        this.validateData.register[0] = true;
+        localStorage.setItem('isLoggedIn', 'true');
+        let token = response.jwt;
+
+        localStorage.setItem('_token', JSON.stringify(token));
+        this.router.navigate(['/profile']);
+      },
+      error: (error) => {
+        this.validateData.register[0] = false;
+        this.validateData.register[1] = error.error.error.message;
+      },
+    });
   }
 
   validateData = {
@@ -40,6 +60,7 @@ export class RegisterComponent {
     email: [true, ''],
     password: [true, ''],
     confirmPassword: [true, ''],
+    register: [true, ''],
   };
 
   validateForm() {

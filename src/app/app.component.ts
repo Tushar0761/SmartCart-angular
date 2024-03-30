@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent {
-  title = 'SmartCart.V16';
+  isLoggedIn =
+    localStorage.getItem('isLoggedIn') && localStorage.getItem('_token')
+      ? true
+      : false;
 }
-

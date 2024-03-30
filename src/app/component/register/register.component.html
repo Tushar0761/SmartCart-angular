@@ -87,6 +87,12 @@
         </div>
       </div>
       <div class="text-center">
+        <div
+          *ngIf="!validateData.register[0]"
+          class="rounded-3 bg-danger px-2 py-1 my-1 text-white"
+        >
+          {{ validateData.register[1] }}
+        </div>
         <button
           class="col-4 col-md-2 btn btn-warning rounded-5"
           (click)="register()"

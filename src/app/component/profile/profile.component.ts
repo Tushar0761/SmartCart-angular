@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,15 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent {
-  isLoggedIn = localStorage.getItem('isLoggedIn') ? true : false;
-
-  section: {
-    account: boolean;
-    order: boolean;
-    wishlist: boolean;
-  };
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private user: UserService) {
     this.section = {
       account: true,
       order: false,
@@ -23,19 +16,29 @@ export class ProfileComponent {
     };
   }
 
+  isLoggedIn =
+    localStorage.getItem('isLoggedIn') && localStorage.getItem('_token')
+      ? true
+      : false;
+
+  section: {
+    account: boolean;
+    order: boolean;
+    wishlist: boolean;
+  };
+
   show(section: string) {
     this.section = {
       account: false,
       wishlist: false,
       order: false,
     };
-
     this.section[section as keyof typeof this.section] = true;
-    console.table(this.section);
   }
 
   logout() {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('_token');
 
     this.router.navigate(['/login']);
   }

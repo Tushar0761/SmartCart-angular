@@ -16,6 +16,10 @@ import { RegisterComponent } from './component/register/register.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { CartComponent } from './component/cart/cart.component';
 import { OrderComponent } from './component/order/order.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AccountComponent } from './component/profile/account/account.component';
+import { WishlistComponent } from './component/profile/wishlist/wishlist.component';
+import { OrderhistoryComponent } from './component/profile/orderhistory/orderhistory.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +34,17 @@ import { OrderComponent } from './component/order/order.component';
     ProfileComponent,
     CartComponent,
     OrderComponent,
+    AccountComponent,
+    WishlistComponent,
+    OrderhistoryComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, NgbModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbModule,
+    FormsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

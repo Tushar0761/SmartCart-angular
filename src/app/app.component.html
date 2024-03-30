@@ -1,8 +1,8 @@
-<div class="bg-light d-flex flex-column" style="height: 100vh">
+<div class="d-flex flex-column" style="height: 100vh">
   <div>
-    <app-navbar></app-navbar>
+    <app-navbar [isLoggedIn]="isLoggedIn"></app-navbar>
   </div>
-  <div style="flex: 1">
+  <div style="flex: 1" class="bg-light">
     <router-outlet> </router-outlet>
   </div>
   <div>
