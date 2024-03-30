@@ -9,6 +9,8 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserProfile(token: string) {
+    const url = environment.getAddressUrl;
+
     // Construct headers
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -16,7 +18,7 @@ export class UserService {
     });
 
     // Make the GET request
-    return this.http.get<any>('http://localhost:1337/api/users/me', {
+    return this.http.get<any>(url, {
       headers,
     });
   }
@@ -29,4 +31,26 @@ export class UserService {
 
   //   return this.http.put<any>(updateUrl, data, { headers });
   // }
+  updateUserDetails(userId: any, token: any, newData: any) {
+    console.log(newData);
+
+    const url = `http://localhost:1337/api/users/${userId}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.put<any>(url, newData, { headers });
+  }
+
+  addNewAddress(addressData: any) {
+    const url = environment.userAddressUrl;
+    const token = JSON.parse(localStorage.getItem('_token') || '');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.post(url, { data: addressData }, { headers });
+  }
 }

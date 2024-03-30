@@ -2,11 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Import the 'HttpClient' class
 import { environment } from 'src/environments/environment.development';
 
+import { BehaviorSubject, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  private isAuthenticatedSubject: BehaviorSubject<boolean>;
+  public isAuthenticated$: Observable<boolean>;
+
+  constructor(private http: HttpClient) {
+    this.isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+    this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  }
 
   login(data: any) {
     const loginUrl = environment.loginUrl;
@@ -16,5 +24,13 @@ export class AuthService {
   register(data: any) {
     const registerUrl = environment.registerUrl;
     return this.http.post(registerUrl, data);
+  }
+
+  setAuthStatus(status: boolean) {
+    this.isAuthenticatedSubject.next(status);
+  }
+
+  getAuthStatus(): boolean {
+    return this.isAuthenticatedSubject.value;
   }
 }

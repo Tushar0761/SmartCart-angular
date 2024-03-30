@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,13 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  isLoggedIn =
-    localStorage.getItem('isLoggedIn') && localStorage.getItem('_token')
-      ? true
-      : false;
+  constructor(private auth: AuthService) {}
+  ngOnInit() {
+    let isLoggedIn =
+      localStorage.getItem('isLoggedIn') && localStorage.getItem('_token')
+        ? true
+        : false;
+
+    this.auth.setAuthStatus(isLoggedIn);
+  }
 }

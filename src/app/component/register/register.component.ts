@@ -18,13 +18,22 @@ export class RegisterComponent {
     confirmPassword: '',
   };
 
+  ngOnInit() {
+    this.auth.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
+      this.isLoggedIn = isAuthenticated;
+    });
+  }
+
   constructor(private auth: AuthService, private router: Router) {}
 
   logout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('_token');
 
-    window.location.reload();
+    this.auth.setAuthStatus(false);
+    localStorage.removeItem('id');
+
+    // window.location.reload();
   }
 
   register() {
@@ -45,7 +54,11 @@ export class RegisterComponent {
         let token = response.jwt;
 
         localStorage.setItem('_token', JSON.stringify(token));
+        localStorage.setItem('id', JSON.stringify(response.user.id));
+
         this.router.navigate(['/profile']);
+
+        this.auth.setAuthStatus(true);
       },
       error: (error) => {
         this.validateData.register[0] = false;

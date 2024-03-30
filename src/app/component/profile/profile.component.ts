@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -8,7 +9,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent {
-  constructor(private router: Router, private user: UserService) {
+  isLoggedIn = false;
+  constructor(private router: Router, private auth: AuthService) {
     this.section = {
       account: true,
       order: false,
@@ -16,10 +18,11 @@ export class ProfileComponent {
     };
   }
 
-  isLoggedIn =
-    localStorage.getItem('isLoggedIn') && localStorage.getItem('_token')
-      ? true
-      : false;
+  ngOnInit() {
+    this.auth.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
+      this.isLoggedIn = isAuthenticated;
+    });
+  }
 
   section: {
     account: boolean;
@@ -39,6 +42,9 @@ export class ProfileComponent {
   logout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('_token');
+    localStorage.removeItem('id');
+
+    this.auth.setAuthStatus(false);
 
     this.router.navigate(['/login']);
   }

@@ -8,9 +8,15 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  isLoggedIn = false;
+
   constructor(private router: Router, private auth: AuthService) {}
 
-  isLoggedIn = localStorage.getItem('isLoggedIn') ? true : false;
+  ngOnInit() {
+    this.auth.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
+      this.isLoggedIn = isAuthenticated;
+    });
+  }
 
   title = 'SmartCart.V16';
   formData = {
@@ -25,11 +31,17 @@ export class LoginComponent {
     this.auth.login(this.formData).subscribe({
       next: (response: any) => {
         this.validateData.login[0] = true;
+
         localStorage.setItem('isLoggedIn', 'true');
+
         let token = response.jwt;
 
         localStorage.setItem('_token', JSON.stringify(token));
+        localStorage.setItem('id', JSON.stringify(response.user.id));
+
         this.router.navigate(['/profile']);
+
+        this.auth.setAuthStatus(true);
       },
       error: (error) => {
         this.validateData.login[0] = false;
@@ -84,8 +96,9 @@ export class LoginComponent {
   logout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('_token');
-
-    window.location.reload();
+    this.auth.setAuthStatus(false);
+    localStorage.removeItem('id');
+    // window.location.reload();
   }
 }
 
