@@ -32,8 +32,6 @@ export class UserService {
   //   return this.http.put<any>(updateUrl, data, { headers });
   // }
   updateUserDetails(userId: any, token: any, newData: any) {
-    console.log(newData);
-
     const url = `http://localhost:1337/api/users/${userId}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -45,12 +43,19 @@ export class UserService {
 
   addNewAddress(addressData: any) {
     const url = environment.userAddressUrl;
-    const token = JSON.parse(localStorage.getItem('_token') || '');
+    const token = localStorage.getItem('_token') || '';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
 
     return this.http.post(url, { data: addressData }, { headers });
+  }
+
+  getAllStates() {
+    return this.http.get<any>(environment.getAllStatesUrl);
+  }
+  getCityById(stateId: any) {
+    return this.http.get<any>(environment.getCityByStateUrl + stateId);
   }
 }

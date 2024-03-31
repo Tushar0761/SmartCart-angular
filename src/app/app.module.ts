@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AccountComponent } from './component/profile/account/account.component';
 import { WishlistComponent } from './component/profile/wishlist/wishlist.component';
 import { OrderhistoryComponent } from './component/profile/orderhistory/orderhistory.component';
+import { AddressComponent } from './component/profile/account/address/address.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { OrderhistoryComponent } from './component/profile/orderhistory/orderhis
     AccountComponent,
     WishlistComponent,
     OrderhistoryComponent,
+    AddressComponent,
   ],
   imports: [
     BrowserModule,
