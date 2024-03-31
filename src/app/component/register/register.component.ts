@@ -53,7 +53,7 @@ export class RegisterComponent {
         localStorage.setItem('isLoggedIn', 'true');
         let token = response.jwt;
 
-        localStorage.setItem('_token', JSON.stringify(token));
+        localStorage.setItem('_token', token);
         localStorage.setItem('id', JSON.stringify(response.user.id));
 
         this.router.navigate(['/profile']);
@@ -88,7 +88,6 @@ export class RegisterComponent {
       this.validateData.confirmPassword[0] = false;
       this.validateData.confirmPassword[1] = 'Password did"nt match.';
     }
-    console.table(this.validateData);
 
     return this.validateData.all;
   }

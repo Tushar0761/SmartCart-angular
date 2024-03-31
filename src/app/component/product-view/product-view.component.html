@@ -1,27 +1,45 @@
-<div class="">
-  <img src="{{ product.image }}" class="card-img-top" alt="Image" />
-  <div class="card-body">
-    <h5 class="card-title" id="productTitle${product.id}">
-      {{ product.name }}
-    </h5>
-    <h5 class="card-title">
-      <span id="productPrice${product.id}">{{ product.price }}</span> ₹
-    </h5>
-
-    <div class="col-12">
-      <button
-        id="productEditBtn-${product.id}"
-        class="btn btn-primary col-12 mb-2"
-      >
-        Add to Cart
-      </button>
-
-      <button
-        id="productEditBtn-${product.id}"
-        class="btn btn-outline-danger col-12"
-      >
-        Add to Wishlist
-      </button>
-    </div>
-  </div>
-</div>
+<!-- Array [ {…}, {…} ]
+​
+0: Object { id: 1, attributes: {…} }
+​​
+attributes: Object { product_name: "Moja", price: 45, product_description: "ok", … }
+​​​
+color: null
+​​​
+createdAt: "2024-03-29T09:54:53.168Z"
+​​​
+dimension: null
+​​​
+expiration_date: null
+​​​
+is_deleted: false
+​​​
+manufacture_date: null
+​​​
+manufacturer_company: null
+​​​
+price: 45
+​​​
+product_description: "ok"
+​​​
+product_name: "Moja"
+​​​
+publishedAt: "2024-03-30T10:25:12.176Z"
+​​​
+updatedAt: "2024-03-30T10:25:12.188Z"
+​​​
+weight: null
+​​​
+<prototype>: Object { … }
+​​
+id: 1
+​​
+<prototype>: Object { … }
+​
+1: Object { id: 2, attributes: {…} }
+​
+length: 2
+​
+<prototype>: Array []
+product-list.component.ts:55:16
+ -->

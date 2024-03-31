@@ -36,7 +36,7 @@ export class LoginComponent {
 
         let token = response.jwt;
 
-        localStorage.setItem('_token', JSON.stringify(token));
+        localStorage.setItem('_token', token);
         localStorage.setItem('id', JSON.stringify(response.user.id));
 
         this.router.navigate(['/profile']);
@@ -63,8 +63,6 @@ export class LoginComponent {
   validateForm() {
     this.validateData.all = this.validateEmail();
     this.validateData.all = this.validatePassword() && this.validateData.all;
-
-    console.table(this.validateData);
 
     return this.validateData.all;
   }

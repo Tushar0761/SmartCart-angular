@@ -11,7 +11,7 @@
 
     <form *ngIf="showUpdateForm" class="w-100">
       <div class="mb-3 d-flex">
-        <div for="" class="form-label me-1 col-4 col-md-3">Name</div>
+        <div for="" class="form-label me-1 col-4 col-md-3">Username</div>
         <input
           [(ngModel)]="newUserDetails.username"
           type="text"
@@ -19,15 +19,35 @@
           name="username"
         />
       </div>
+      <div
+        class="rounded-3 bg-danger w-auto px-2 py-1 mt-1 text-white"
+        *ngIf="!updateProfileValidation.username[0]"
+      >
+        {{ updateProfileValidation.username[1] }}
+      </div>
 
       <div class="mb-3 d-flex">
         <div for="" class="form-label me-1 col-6 col-md-4">Mobile Number</div>
+
         <input
           type="text"
           class="form-control"
           name="mobile_number"
           [(ngModel)]="newUserDetails.mobile_number"
         />
+      </div>
+      <div
+        class="rounded-3 bg-danger w-auto px-2 py-1 mt-1 text-white"
+        *ngIf="!updateProfileValidation.mobile_number[0]"
+      >
+        {{ updateProfileValidation.mobile_number[1] }}
+      </div>
+
+      <div
+        class="rounded-3 bg-danger w-auto px-2 py-1 mt-1 text-white"
+        *ngIf="!updateProfileValidation.updateError[0]"
+      >
+        {{ updateProfileValidation.updateError[1] }}
       </div>
       <button class="btn btn-primary" type="submit" (click)="updateProfile()">
         Update
@@ -103,7 +123,7 @@
         <div class="col-5 col-md-4" for="addressLine1">Address Line 1</div>
         <input
           name="line1"
-          [(ngModel)]="addressFrom.line1"
+          [(ngModel)]="addressForm.line1"
           type="text"
           class="form-control"
           placeholder="Enter address line 1"
@@ -119,7 +139,7 @@
       <div class="d-flex pb-2">
         <div class="col-5 col-md-4" for="addressLine2">Address Line 2</div>
         <input
-          [(ngModel)]="addressFrom.line2"
+          [(ngModel)]="addressForm.line2"
           name="line2"
           type="text"
           class="form-control"
@@ -132,7 +152,7 @@
         <input
           type="text"
           name="landmark"
-          [(ngModel)]="addressFrom.landmark"
+          [(ngModel)]="addressForm.landmark"
           class="form-control"
           placeholder="Enter landmark"
         />
@@ -143,14 +163,48 @@
       >
         {{ addressValidation.landmark[1] }}
       </div>
+
+      <!-- States -->
+      <div class="d-flex pb-2">
+        <div class="col-5 col-md-4" for="city">State</div>
+
+        <select
+          class="form-select form"
+          name="state"
+          [(ngModel)]="addressForm.stateId"
+          (change)="onStateChange()"
+          required
+        >
+          <option>Select one</option>
+          <option *ngFor="let state of states" value="{{ state.id }}">
+            {{ state.attributes.name }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="rounded-3 bg-danger w-auto px-2 py-1 mt-1 text-white"
+        *ngIf="!addressValidation.state[0]"
+      >
+        {{ addressValidation.state[1] }}
+      </div>
+
+      <!-- city  -->
+
       <div class="d-flex pb-2">
         <div class="col-5 col-md-4" for="city">City</div>
-        <input
-          type="text"
+        <select
+          class="form-select form"
           name="city"
-          class="form-control"
-          [(ngModel)]="addressFrom.city"
-        />
+          id="city"
+          [(ngModel)]="addressForm.cityId"
+          [disabled]="!addressForm.stateId"
+          required
+        >
+          <option value="">Select one</option>
+          <option *ngFor="let city of cities" [value]="city.id">
+            {{ city.attributes.name }}
+          </option>
+        </select>
       </div>
 
       <div
@@ -159,6 +213,8 @@
       >
         {{ addressValidation.city[1] }}
       </div>
+
+      <!-- deffault -->
       <div class="d-flex pb-2">
         <input type="checkbox" class="form-check-input me-3" />
         <div class="col-5 col-md-4" for="city">Default</div>

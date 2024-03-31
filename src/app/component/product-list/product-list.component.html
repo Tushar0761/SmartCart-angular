@@ -1,8 +1,50 @@
-<section class="d-flex flex-wrap m-3 text-center gap-2">
+<section class="d-flex flex-wrap m-3 gap-3">
   <div
-    *ngFor="let item of productArray"
-    class="card shadow col-4 col-md-3 col-lg-3"
+    *ngFor="let product of productArray"
+    id="{{ product.id }}"
+    class="product-card card shadow col-4 col-md-3 col-lg-2 d-flex flex-column justify-content-between"
   >
-    <app-product-view [product]="item"></app-product-view>
+    <img
+      src="{{
+          product.attributes.product_image.data ?
+          'http://localhost:1337'+
+          product.attributes.product_image.data?.[0]?.attributes?.url 
+          :
+        'https://via.placeholder.com/150'
+        }}"
+      class="card-img-top"
+      style="height: 150px; object-fit: cover"
+      alt="Image"
+    />
+    <div class="card-body">
+      <h5 class="card-title">
+        {{ product.attributes.product_name }}
+      </h5>
+      <p class="card-text">
+        {{ product.attributes.product_description || "No Description" }}
+      </p>
+
+      <h5 class="card-title">
+        <span>{{ product.attributes.price }}</span> ₹
+      </h5>
+    </div>
+    <div class="col-12 p-2 text-center">
+      <button
+        *ngIf="!isInCart(product.id)"
+        class="btn btn-primary col-12 mb-2"
+        (click)="addToCart(product.id)"
+      >
+        Add to Cart
+      </button>
+      <button
+        *ngIf="isInCart(product.id)"
+        class="btn btn-success col-12 mb-2"
+        (click)="router.navigate(['/cart'])"
+      >
+        View in cart
+      </button>
+
+      <button class="btn btn-outline-danger col-12">Add to Wishlist</button>
+    </div>
   </div>
 </section>

@@ -15,59 +15,33 @@
   class="h-100 d-flex justify-items-center align-items-center"
 >
   <div class="mx-auto card py-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
-    <div class="border rounded-4 d-flex mx-1 my-2">
-      <div class="col-2 m-1">
-        <img
-          src="../../../assets/Img/echo.jpg"
-          alt="product img"
-          style="width: 100%; aspect-ratio: 1; object-fit: contain"
-        />
+    <div
+      *ngFor="let product of cartItems"
+      class="border rounded-4 d-flex justify-content-between mx-1 my-2"
+      id="{{ product.id }}"
+    >
+      <div class="ms-3 my-auto">
+        <h3>{{ product.attributes.product.data.attributes.product_name }}</h3>
+
+        <p>Price : {{ product.attributes.product.data.attributes.price }}</p>
       </div>
-      <div>
-        <h3>Product 1</h3>
-        <div class="d-flex gap-3">
-          <p>Price : 12 ₹</p>
-        </div>
-      </div>
-      <div class="btn-group ms-auto my-auto">
+      <div class="btn-group my-auto">
         <button class="btn btn-success">+</button>
-        <div class="mx-2 my-auto">10</div>
+        <div class="mx-2 my-auto">
+          {{ product.attributes.quantity }}
+        </div>
         <button class="btn btn-danger">-</button>
       </div>
 
-      <div class="my-auto mx-3 ps text-center fs-5">
-        Total
-        <br />
-        450 ₹
+      <div class="col-3 my-auto text-center fs-5 border m-1 p-1 bg-light">
+        {{
+          product.attributes.product.data.attributes.price *
+            product.attributes.quantity
+        }}
+        ₹
       </div>
     </div>
 
-    <!-- second -->
-    <div class="border d-flex mx-1 my-2 rounded-4">
-      <div class="col-2 m-1">
-        <img
-          src="../../../assets/Img/echo.jpg"
-          alt="product img"
-          style="width: 100%; aspect-ratio: 1; object-fit: contain"
-        />
-      </div>
-      <div>
-        <h3>Product 1</h3>
-        <div class="d-flex gap-3">
-          <p>Price : 12 ₹</p>
-        </div>
-      </div>
-      <div class="btn-group ms-auto my-auto">
-        <button class="btn btn-success">+</button>
-        <div class="mx-2 my-auto">10</div>
-        <button class="btn btn-danger">-</button>
-      </div>
-      <div class="my-auto mx-3 text-center fs-5">
-        Total
-        <br />
-        450
-      </div>
-    </div>
     <button
       class="btn btn-primary ms-auto mx-3 col-6 col-md-4 col-lg-3"
       (click)="placeOrder()"
@@ -76,3 +50,34 @@
     </button>
   </div>
 </section>
+
+<!--   "data": [
+        {
+            "id": 18,
+            "attributes": {
+                "quantity": 1,
+                "createdAt": "2024-03-31T10:39:55.680Z",
+                "updatedAt": "2024-03-31T10:39:55.680Z",
+                "publishedAt": "2024-03-31T10:39:55.670Z",
+                "product": {
+                    "data": {
+                        "id": 1,
+                        "attributes": {
+                            "product_name": "Laptop",
+                            "price": 150,
+                            "product_description": "ok",
+                            "is_deleted": false,
+                            "manufacturer_company": null,
+                            "manufacture_date": null,
+                            "weight": null,
+                            "color": null,
+                            "expiration_date": null,
+                            "dimension": null,
+                            "createdAt": "2024-03-29T09:54:53.168Z",
+                            "updatedAt": "2024-03-31T09:17:18.442Z",
+                            "publishedAt": "2024-03-30T10:25:12.176Z"
+                        }
+                    }
+                }
+            }
+        }, -->
