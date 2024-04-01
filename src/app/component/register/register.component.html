@@ -91,7 +91,7 @@
           *ngIf="!validateData.register[0]"
           class="rounded-3 bg-danger px-2 py-1 my-1 text-white"
         >
-          {{ validateData.register[1] }}
+          {{ validateData.register[1] || "Server is down." }}
         </div>
         <button
           class="col-4 col-md-2 btn btn-warning rounded-5"

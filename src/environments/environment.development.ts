@@ -11,7 +11,7 @@ export const environment = {
   getAllStatesUrl: 'http://localhost:1337/api/states',
 
   getAllProductsUrl:
-    'http://localhost:1337/api/products?pagination[page]=1&pagination[pageSize]=10&populate[category][fields][0]=category_name&populate[product_image][fields][1]=url&populate[wish_lists][fields][2]=id',
+    'http://localhost:1337/api/products?&populate[category][fields][0]=category_name&populate[product_image][fields][1]=url&populate[wish_lists][fields][2]=id',
 
   // z
   baseUrl: 'http://localhost:1337/',
@@ -22,4 +22,5 @@ export const environment = {
   product_by_id: 'api/products/id',
 
   cartUrl: 'http://localhost:1337/api/carts',
+  orderUrl: 'http://localhost:1337/api/orders',
 };

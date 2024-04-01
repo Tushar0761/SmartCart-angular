@@ -11,7 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent {
   productArray: any = [];
 
-  productInCart: any = [];
+  cartItemArray: any = [];
 
   constructor(
     public router: Router,
@@ -23,13 +23,30 @@ export class ProductListComponent {
 
   ngOnInit() {
     this.fetchProducts();
+    this.cartItemProductsIds();
+  }
+
+  cartItemProductsIds() {
+    const userId: any = localStorage.getItem('id');
+
+    this.cartService.getCartItems(userId).subscribe({
+      next: (response) => {
+        let tempArr = response.data;
+        tempArr.forEach((item: any) =>
+          this.cartItemArray.push(item.attributes.product.data.id)
+        );
+
+      },
+      error: (error) => {
+        console.error('Error fetching cart items:', error);
+      },
+    });
   }
 
   fetchProducts() {
     this.ProductService.getProducts().subscribe({
       next: (response: any) => {
         this.productArray = response.data;
-        console.log(this.productArray); // Check if products array is correctly assigned
       },
       error: (error: any) => {
         console.error('Error fetching products:', error);
@@ -56,7 +73,7 @@ export class ProductListComponent {
     this.cartService.addCart(cartItemPayload).subscribe(
       (response: any) => {
         this.cartService.addToCartItems(productId);
-
+        this.cartItemArray.push(productId);
         // alert('Product added to cart successfully!');
       },
       (error: any) => {
@@ -64,9 +81,5 @@ export class ProductListComponent {
         // Handle error as needed
       }
     );
-  }
-
-  isInCart(productId: number): boolean {
-    return this.cartService.isInCart(productId);
   }
 }

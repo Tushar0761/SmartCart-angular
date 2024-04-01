@@ -16,9 +16,6 @@ export class CartService {
     });
 
     let url = `http://localhost:1337/api/carts?filters[user_detail][id][$eq][0]=${userId}&populate=product&filters[order][id][$notNull]`;
-    console.log(url);
-
-    // let url = `http://localhost:1337/api/carts?filters[user_detail][id][%24eq][0]=${userId}&populate=product&filters[order][id][%24notNull]=null`;
 
     return this.http.get<any>(url, {
       headers,
@@ -47,7 +44,31 @@ export class CartService {
     this.cartItems = this.cartItems.filter((id) => id !== productId);
   }
 
-  isInCart(productId: number): boolean {
-    return this.cartItems.includes(productId);
+  updateCartItemQuantity(cartItemId: number, quantity: number) {
+    const url = `${environment.cartUrl}/${cartItemId}`;
+    const token = localStorage.getItem('_token') || '';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const body = {
+      data: {
+        quantity: quantity,
+      },
+    };
+    return this.http.put(url, body, { headers });
+  }
+
+  deleteCartItem(cartId: number) {
+    const url = `${environment.cartUrl}/${cartId}`;
+    const token = localStorage.getItem('_token');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.delete<any>(url, { headers });
   }
 }

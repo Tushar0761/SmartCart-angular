@@ -1,3 +1,11 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+  crossorigin="anonymous"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <section
   *ngIf="!isLoggedIn"
   class="text-center h-100 d-flex justify-content-center align-items-center py-4"
@@ -10,39 +18,67 @@
   </div>
 </section>
 
-<section
-  *ngIf="isLoggedIn"
-  class="h-100 d-flex justify-items-center align-items-center"
->
-  <div class="mx-auto card py-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
+<section *ngIf="isLoggedIn" class="h-100 d-flex">
+  <div class="my-3 mx-auto card py-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
+    <div *ngIf="cartItems.length == 0" class="text-center">
+      <h5>There is no products in your carts.☹</h5>
+    </div>
     <div
-      *ngFor="let product of cartItems"
-      class="border rounded-4 d-flex justify-content-between mx-1 my-2"
-      id="{{ product.id }}"
+      *ngFor="let cart of cartItems; let index"
+      class="border rounded-4 m-1"
+      id="{{ cart.id }}"
     >
-      <div class="ms-3 my-auto">
-        <h3>{{ product.attributes.product.data.attributes.product_name }}</h3>
+      <div class="d-flex justify-content-between">
+        <div class="ms-3 my-1">
+          <h3>{{ cart.attributes.product.data.attributes.product_name }}</h3>
 
-        <p>Price : {{ product.attributes.product.data.attributes.price }}</p>
-      </div>
-      <div class="btn-group my-auto">
-        <button class="btn btn-success">+</button>
-        <div class="mx-2 my-auto">
-          {{ product.attributes.quantity }}
+          <p>Price : {{ cart.attributes.product.data.attributes.price }}</p>
         </div>
-        <button class="btn btn-danger">-</button>
-      </div>
+        <div class="btn-group my-auto">
+          <button class="btn btn-success" (click)="incrementQuantity(index)">
+            +
+          </button>
+          <div class="mx-2 my-auto fs-4">
+            {{ cart.attributes.quantity }}
+          </div>
+          <button class="btn btn-danger" (click)="decrementQuantity(index)">
+            -
+          </button>
+        </div>
 
-      <div class="col-3 my-auto text-center fs-5 border m-1 p-1 bg-light">
-        {{
-          product.attributes.product.data.attributes.price *
-            product.attributes.quantity
-        }}
-        ₹
+        <div class="col-3 my-auto text-center fs-5 border m-1 p-1 bg-light">
+          {{
+            cart.attributes.product.data.attributes.price *
+              cart.attributes.quantity
+          }}
+          ₹
+        </div>
+      </div>
+      <div
+        (click)="removeCartItem(cart.id)"
+        class="btn btn-outline-danger mx-3 my-1"
+      >
+        Remove
       </div>
     </div>
 
+    <div class="fs-4 my-1 d-flex">
+      <div
+        *ngIf="cartItems.length !== 0"
+        class="p-2 me-2 w-auto ms-auto border rounded-4 bg-primary-subtle"
+      >
+        Grand Total : {{ grandTotal }} ₹
+      </div>
+    </div>
+    <div
+      class="my-1 text-end me-3 text-danger"
+      *ngIf="cartItems.length !== 0 && grandTotal === 0"
+    >
+      Please add Atleast one product to order.*
+    </div>
     <button
+      *ngIf="cartItems.length !== 0"
+      [disabled]="grandTotal === 0"
       class="btn btn-primary ms-auto mx-3 col-6 col-md-4 col-lg-3"
       (click)="placeOrder()"
     >

@@ -219,7 +219,6 @@ export class AccountComponent {
     this.user.getAllStates().subscribe({
       next: (response) => {
         this.states = response.data;
-        console.log('States:', this.states);
       },
       error: (error) => {
         console.error('Error fetching states:', error);
@@ -233,7 +232,6 @@ export class AccountComponent {
       this.user.getCityById(this.addressForm.stateId).subscribe({
         next: (response) => {
           this.cities = response.data;
-          console.log('Cities:', this.cities);
         },
         error: (error) => {
           console.error('Error fetching cities:', error);

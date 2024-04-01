@@ -23,22 +23,45 @@ export class CartComponent {
     this.getCartItems(userId);
   }
 
-  getUniqueCartItems() {
-    this.cartItems = this.cartItems.reduce((prev, cur) => {
-      if (
-        !prev.some(
-          (item: any) =>
-            item.attributes.product.data.id === cur.attributes.product.data.id
-        )
-      ) {
-        prev.push(cur);
-      }
-      return prev;
-    }, []);
+  ngOnDestroy() {
+    let updatedCart = this.updateCartQuantity();
+
+    updatedCart.forEach((item) => {
+      this.cartService
+        .updateCartItemQuantity(item.id, item.quantity)
+        .subscribe({
+          next: (response) => {},
+          error: (err) => {
+            console.error(`Error updating cart item ${item.id}:`, err);
+          },
+        });
+    });
   }
 
   placeOrder() {
-    this.router.navigate(['/order']);
+    let updatedCart = this.updateCartQuantity();
+
+    updatedCart.forEach((item) => {
+      this.cartService
+        .updateCartItemQuantity(item.id, item.quantity)
+        .subscribe({
+          next: (response) => {
+            this.router.navigate(['/order']);
+          },
+          error: (err) => {
+            console.error(`Error updating cart item ${item.id}:`, err);
+          },
+        });
+    });
+  }
+
+  updateCartQuantity() {
+    return this.cartItems.map((item) => {
+      return {
+        id: item.id,
+        quantity: item.attributes.quantity,
+      };
+    });
   }
 
   cartItems: any[] = [];
@@ -47,15 +70,56 @@ export class CartComponent {
     this.cartService.getCartItems(userId).subscribe({
       next: (response) => {
         this.cartItems = response.data;
-        console.log(this.cartItems);
 
-        this.getUniqueCartItems();
-        console.log(this.cartItems);
-
-        console.log('Cart Items:', this.cartItems);
+        this.getGrandTotal();
       },
       error: (error) => {
         console.error('Error fetching cart items:', error);
+      },
+    });
+  }
+
+  grandTotal = 0;
+
+  getGrandTotal() {
+    this.grandTotal = this.cartItems.reduce((prev, cur) => {
+      return (
+        prev +
+        cur.attributes.product.data.attributes.price * cur.attributes.quantity
+      );
+    }, 0);
+  }
+
+  incrementQuantity(index: any) {
+    index.attributes.quantity++;
+    this.getGrandTotal();
+  }
+
+  decrementQuantity(index: any) {
+    if (index.attributes.quantity <= 1) {
+      return;
+    }
+    index.attributes.quantity--;
+    this.getGrandTotal();
+  }
+  removeCartItem(cartId: number) {
+    if (!confirm('Are you sure you want to delete this item?')) {
+      return;
+    }
+
+    let idToRemove = cartId; // Example id to remove
+    console.table(this.cartItems);
+
+    this.cartItems = this.cartItems.filter((item) => item.id !== idToRemove);
+
+    console.table(this.cartItems);
+
+    this.cartService.deleteCartItem(cartId).subscribe({
+      next: (response) => {
+        console.log('Cart item deleted successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error deleting cart item:', error);
       },
     });
   }

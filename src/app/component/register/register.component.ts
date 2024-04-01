@@ -62,7 +62,8 @@ export class RegisterComponent {
       },
       error: (error) => {
         this.validateData.register[0] = false;
-        this.validateData.register[1] = error.error.error.message;
+        this.validateData.register[1] =
+          error?.error?.error?.message || 'Something Wrong Happened.';
       },
     });
   }
