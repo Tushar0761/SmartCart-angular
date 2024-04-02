@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
+import { WishlistService } from 'src/app/services/wishlist.service';
 
 @Component({
   selector: 'app-product-list',
@@ -9,21 +11,25 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent {
+  isLoggedIn = false;
   productArray: any = [];
-
   cartItemArray: any = [];
+  wishListItemArray: any = [];
 
   constructor(
     public router: Router,
     private ProductService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private wishlistService: WishlistService,
+    private auth: AuthService
   ) {
-    this.productArray = [];
+    this.isLoggedIn = this.auth.getAuthStatus();
   }
 
   ngOnInit() {
     this.fetchProducts();
     this.cartItemProductsIds();
+    this.wishlistItemsProductIds();
   }
 
   cartItemProductsIds() {
@@ -35,12 +41,29 @@ export class ProductListComponent {
         tempArr.forEach((item: any) =>
           this.cartItemArray.push(item.attributes.product.data.id)
         );
-
       },
       error: (error) => {
         console.error('Error fetching cart items:', error);
       },
     });
+  }
+
+  wishlistItemsProductIds() {
+    this.wishlistService.getWishlist().subscribe({
+      next: (response) => {
+        let tempArr = response.data;
+        tempArr.forEach((item: any) =>
+          this.wishListItemArray.push(item.attributes.product.data.id)
+        );
+      },
+      error: (error) => {
+        console.error('Error fetching cart items:', error);
+      },
+    });
+  }
+
+  login() {
+    this.router.navigate(['/login']);
   }
 
   fetchProducts() {
@@ -55,13 +78,6 @@ export class ProductListComponent {
   }
 
   addToCart(productId: number): void {
-    //check user login or not
-    const isAuthenticated = localStorage.getItem('id') !== null;
-    if (!isAuthenticated) {
-      alert('Please login first.');
-      return;
-    }
-
     const cartItemPayload = {
       data: {
         product: productId,
@@ -72,13 +88,21 @@ export class ProductListComponent {
 
     this.cartService.addCart(cartItemPayload).subscribe(
       (response: any) => {
-        this.cartService.addToCartItems(productId);
         this.cartItemArray.push(productId);
-        // alert('Product added to cart successfully!');
       },
       (error: any) => {
         console.error('Error adding product to cart:', error);
-        // Handle error as needed
+      }
+    );
+  }
+
+  addToWishList(productId: number): void {
+    this.wishlistService.addTOWishlist(productId).subscribe(
+      (response: any) => {
+        this.wishListItemArray.push(productId);
+      },
+      (error: any) => {
+        console.error('Error adding product to cart:', error);
       }
     );
   }

@@ -33,7 +33,6 @@ export class RegisterComponent {
     this.auth.setAuthStatus(false);
     localStorage.removeItem('id');
 
-    // window.location.reload();
   }
 
   register() {
@@ -95,7 +94,6 @@ export class RegisterComponent {
 
   validateUsername() {
     if (this.formData.username.length < 5) {
-      // handle error for invalid username
       this.validateData.username[0] = false;
       this.validateData.username[1] = 'Please Provide valid username.';
       return false;
@@ -106,7 +104,6 @@ export class RegisterComponent {
   }
   validateEmail() {
     if (!this.formData.email.includes('@')) {
-      // handle error for invalid email
       this.validateData.email[0] = false;
       this.validateData.email[1] = 'Please Provide valid email.';
       return false;
@@ -117,7 +114,6 @@ export class RegisterComponent {
   }
   validatePassword() {
     if (this.formData.password.length < 8) {
-      // handle error for invalid password
       this.validateData.password[0] = false;
       this.validateData.password[1] = 'Please Provide valid Password.';
       return false;
@@ -128,7 +124,6 @@ export class RegisterComponent {
   }
   validateConfirmPassword() {
     if (this.formData.confirmPassword.length < 8) {
-      // handle error for invalid password
       this.validateData.confirmPassword[0] = false;
       this.validateData.confirmPassword[1] = 'Please Provide valid Password.';
       return false;

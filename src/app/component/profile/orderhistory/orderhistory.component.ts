@@ -18,7 +18,6 @@ export class OrderhistoryComponent {
     this.orderService.getOrders().subscribe(
       (response: { data: any }) => {
         this.orderItems = response.data;
-        console.log(this.orderItems);
       },
       (error: any) => {
         console.error('Error fetching orders:', error);

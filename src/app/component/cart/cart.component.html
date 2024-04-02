@@ -1,10 +1,3 @@
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-  crossorigin="anonymous"
-/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <section
   *ngIf="!isLoggedIn"
@@ -18,10 +11,14 @@
   </div>
 </section>
 
-<section *ngIf="isLoggedIn" class="h-100 d-flex">
-  <div class="my-3 mx-auto card py-3 shadow rounded-3 col-11 col-sm-9 col-md-6">
+<section *ngIf="isLoggedIn" class="h-100 py-4">
+  <div class="mx-auto card p-3 h-100 shadow rounded-3 col-11 col-sm-9 col-md-8">
+    <h1 class="text-center">Your Cart</h1>
+    <hr />
+
     <div *ngIf="cartItems.length == 0" class="text-center">
-      <h5>There is no products in your carts.☹</h5>
+      <h5>There is no products in your carts.</h5>
+      <a routerLink="/" class="btn btn-primary">Shop Now</a>
     </div>
     <div
       *ngFor="let cart of cartItems; let index"
@@ -29,8 +26,8 @@
       id="{{ cart.id }}"
     >
       <div class="d-flex justify-content-between">
-        <div class="ms-3 my-1">
-          <h3>{{ cart.attributes.product.data.attributes.product_name }}</h3>
+        <div class="mx-3">
+          <h4>{{ cart.attributes.product.data.attributes.product_name }}</h4>
 
           <p>Price : {{ cart.attributes.product.data.attributes.price }}</p>
         </div>
@@ -45,20 +42,20 @@
             -
           </button>
         </div>
-
-        <div class="col-3 my-auto text-center fs-5 border m-1 p-1 bg-light">
-          {{
-            cart.attributes.product.data.attributes.price *
-              cart.attributes.quantity
-          }}
-          ₹
+        <div class="d-flex col-4 flex-wrap">
+          <div class="col-8 my-auto text-center fs-5 border m-1 p-1 bg-light">
+            {{
+              cart.attributes.product.data.attributes.price *
+                cart.attributes.quantity
+            }}
+            ₹
+          </div>
+          <div (click)="removeCartItem(cart.id)" class="text-end my-auto">
+            <button class="btn btn-outline-danger">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
         </div>
-      </div>
-      <div
-        (click)="removeCartItem(cart.id)"
-        class="btn btn-outline-danger mx-3 my-1"
-      >
-        Remove
       </div>
     </div>
 
@@ -86,34 +83,3 @@
     </button>
   </div>
 </section>
-
-<!--   "data": [
-        {
-            "id": 18,
-            "attributes": {
-                "quantity": 1,
-                "createdAt": "2024-03-31T10:39:55.680Z",
-                "updatedAt": "2024-03-31T10:39:55.680Z",
-                "publishedAt": "2024-03-31T10:39:55.670Z",
-                "product": {
-                    "data": {
-                        "id": 1,
-                        "attributes": {
-                            "product_name": "Laptop",
-                            "price": 150,
-                            "product_description": "ok",
-                            "is_deleted": false,
-                            "manufacturer_company": null,
-                            "manufacture_date": null,
-                            "weight": null,
-                            "color": null,
-                            "expiration_date": null,
-                            "dimension": null,
-                            "createdAt": "2024-03-29T09:54:53.168Z",
-                            "updatedAt": "2024-03-31T09:17:18.442Z",
-                            "publishedAt": "2024-03-30T10:25:12.176Z"
-                        }
-                    }
-                }
-            }
-        }, -->

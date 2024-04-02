@@ -10,27 +10,16 @@ export class UserService {
 
   getUserProfile(token: string) {
     const url = environment.getAddressUrl;
-
-    // Construct headers
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
 
-    // Make the GET request
     return this.http.get<any>(url, {
       headers,
     });
   }
 
-  // updateUserProfile(token: string, data: { username: string; phone: string }) {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${token}`,
-  //   });
-
-  //   return this.http.put<any>(updateUrl, data, { headers });
-  // }
   updateUserDetails(userId: any, token: any, newData: any) {
     const url = `http://localhost:1337/api/users/${userId}`;
     const headers = new HttpHeaders({

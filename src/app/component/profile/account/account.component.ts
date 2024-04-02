@@ -8,35 +8,12 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class AccountComponent {
   userDetails: any = {};
-  userAddresses: any = [];
 
-  addressForm: any = {
-    line1: '',
-    line2: '',
-    landmark: '',
-    cityId: '',
-    stateId: '',
-  };
-
-  addressValidation: any = {};
-
-  //inserting value
-  constructor(private user: UserService) {
-    this.addressValidation = {
-      line1: [true, 'Please Provide Valid Input.'],
-      line2: [true, 'Please Provide Valid Input.'],
-      landmark: [true, 'Please Provide Valid Input.'],
-      state: [true, 'Please Provide Valid Input.'],
-      city: [true, 'Please Provide Valid Input.'],
-    };
-  }
+  constructor(private user: UserService) {}
 
   ngOnInit() {
-    //  Value get from API
     this.getUserProfile();
   }
-
-  //Function for APi Call
 
   getUserProfile() {
     let token = localStorage.getItem('_token') || '';
@@ -44,18 +21,16 @@ export class AccountComponent {
     this.user.getUserProfile(token).subscribe({
       next: (response: any) => {
         this.userDetails = response;
-        this.userAddresses = response.user_addresses;
         this.newUserDetails = {
           ...response,
         };
       },
       error: (error: any) => {
-        console.table(error);
+        console.error(error);
       },
     });
   }
 
-  //user update form
   newUserDetails: any = {};
   showUpdateForm = false;
 
@@ -125,120 +100,5 @@ export class AccountComponent {
           error.error?.error?.message || 'Error updating user details';
       },
     });
-  }
-
-  //address form
-  showAddressForm = false;
-
-  showAddressFormBtn() {
-    this.fetchStates();
-    this.showAddressForm = true;
-  }
-  cancelAddressFormBtn() {
-    this.showAddressForm = false;
-  }
-
-  checkLength(value: string, length: number) {
-    return value.length >= length;
-  }
-
-  validateAddressLine1() {
-    if (!this.checkLength(this.addressForm.line1, 5)) {
-      this.addressValidation.line1[0] = false;
-      this.addressValidation.line1[1] = 'It  must be 5 characters long.';
-      return false;
-    }
-    this.addressValidation.line1[0] = true;
-    return true;
-  }
-
-  addressFormSubmit() {
-    if (!this.addressFormValidation()) {
-      return;
-    }
-
-    let id = JSON.parse(localStorage.getItem('id') || '');
-
-    const addressData = {
-      user_details: id, // Replace with actual user details
-      address_line_1: this.addressForm.line1,
-      address_line_2: this.addressForm.line2,
-      landmark: this.addressForm.landmark,
-      isDefault: false, // Set to true if it's the default address
-      city: this.addressForm.cityId, // Replace with actual city details
-    };
-
-    this.user.addNewAddress(addressData).subscribe({
-      next: (response: any) => {
-        alert('Address added successfully');
-        this.showAddressForm = false;
-
-        this.getUserProfile();
-      },
-      error: (error: any) => {
-        console.error('Error adding address:', error);
-        alert('Error adding address');
-      },
-    });
-  }
-
-  addressFormValidation() {
-    let isValid = true;
-
-    isValid = this.validateAddressLine1() && isValid;
-    isValid = this.validateAddressLandmark() && isValid;
-    isValid = this.validateAddressCity() && isValid;
-
-    return isValid;
-  }
-
-  validateAddressCity() {
-    if (this.addressForm.cityId === '' || this.addressForm.cityId === null) {
-      this.addressValidation.city[0] = false;
-      this.addressValidation.city[1] = 'Please Select City and State.';
-      return false;
-    }
-
-    this.addressValidation.city[0] = true;
-    return true;
-  }
-
-  validateAddressLandmark() {
-    if (!this.checkLength(this.addressForm.landmark, 3)) {
-      this.addressValidation.landmark[0] = false;
-      this.addressValidation.landmark[1] =
-        'Landmark Name must be 3 characters long.';
-      return false;
-    }
-    this.addressValidation.landmark[0] = true;
-    return true;
-  }
-  states: any = [];
-
-  fetchStates() {
-    this.user.getAllStates().subscribe({
-      next: (response) => {
-        this.states = response.data;
-      },
-      error: (error) => {
-        console.error('Error fetching states:', error);
-      },
-    });
-  }
-  cities: any = [];
-
-  onStateChange() {
-    if (this.addressForm.stateId) {
-      this.user.getCityById(this.addressForm.stateId).subscribe({
-        next: (response) => {
-          this.cities = response.data;
-        },
-        error: (error) => {
-          console.error('Error fetching cities:', error);
-        },
-      });
-    } else {
-      this.cities = [];
-    }
   }
 }

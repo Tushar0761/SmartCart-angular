@@ -20,12 +20,15 @@ export class OrderService {
 
   getOrders(): any {
     const token = localStorage.getItem('_token') || '';
+    const id = localStorage.getItem('id');
+
+    const url = `http://localhost:1337/api/orders?filters[user_detail][id][$eq][0]=${id}`;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
 
-    return this.http.get<any>('http://localhost:1337/api/orders', { headers });
+    return this.http.get<any>(url, { headers });
   }
 }

@@ -50,7 +50,6 @@ export class LoginComponent {
       },
     });
 
-    // perform registration logic
   }
 
   validateData = {
@@ -68,7 +67,6 @@ export class LoginComponent {
   }
   validateEmail() {
     if (!this.formData.identifier.includes('@')) {
-      // handle error for invalid email
       this.validateData.identifier[0] = false;
       this.validateData.identifier[1] = 'Please Provide valid username.';
 
@@ -83,7 +81,6 @@ export class LoginComponent {
       this.validateData.password[0] = false;
       this.validateData.password[1] = 'Please Provide valid Password.';
 
-      // handle error for invalid password
       return false;
     }
     this.validateData.password[0] = true;
@@ -96,8 +93,6 @@ export class LoginComponent {
     localStorage.removeItem('_token');
     this.auth.setAuthStatus(false);
     localStorage.removeItem('id');
-    // window.location.reload();
   }
 }
 
-// http://localhost:1337/api::product.product?page=1&pageSize=10&sort=product_name:ASC

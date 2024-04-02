@@ -39,7 +39,8 @@ export class OrderComponent {
 
     this.tax = (this.grandTotal + 50) * 0.18;
     this.tax = Number(this.tax.toFixed(2));
-    this.payableAmount = this.grandTotal + this.tax;
+    this.payableAmount = this.grandTotal + 50 + this.tax;
+    this.payableAmount = Number(this.payableAmount.toFixed(2));
   }
 
   getCartItems(userId: any) {
@@ -58,16 +59,6 @@ export class OrderComponent {
   carts: number[] = [];
 
   calculateOrderItemsAndCarts() {
-    this.order_items = JSON.stringify(
-      this.cartItems.map((item) => {
-        return {
-          name: item.attributes.product.data.attributes.product_name,
-          quantity: item.attributes.quantity,
-          price: item.attributes.product.data.attributes.price,
-        };
-      })
-    );
-    console.log(this.order_items);
     this.carts = this.cartItems.map((item) => item.id);
   }
 
@@ -81,8 +72,8 @@ export class OrderComponent {
       data: {
         order_status: 'Placed,',
         order_date: orderDate,
-        tax_amount: this.grandTotal,
-        total_amount: this.tax,
+        tax_amount: this.tax,
+        total_amount: this.grandTotal,
         payable_amount: this.payableAmount,
         carts: this.carts,
         order_items: this.order_items,
@@ -92,7 +83,6 @@ export class OrderComponent {
 
     this.orderService.placeOrder(orderData).subscribe({
       next: (response) => {
-        console.log('Order placed successfully:', response);
         this.isOrderPlaced = true;
       },
       error: (error) => {

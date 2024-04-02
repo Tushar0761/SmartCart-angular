@@ -12,8 +12,8 @@ export class ProfileComponent {
   isLoggedIn = false;
   constructor(private router: Router, private auth: AuthService) {
     this.section = {
-      account: false,
-      order: true,
+      account: true,
+      order: false,
       wishlist: false,
     };
   }

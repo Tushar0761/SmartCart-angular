@@ -1,27 +1,30 @@
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-  crossorigin="anonymous"
-/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-<div class="fs-3">Your Orders</div>
 
-<div *ngIf="orderItems.length == 0">No order history present</div>
+<div class="fs-bold fs-3 text-center">Your Orders</div>
+
+<div
+  *ngIf="orderItems.length == 0"
+  class="text-center p-2 m-2 alert alert-warning fs-4 rounded-3 border"
+>
+  You Dont Order Anything Yet.
+  <br />
+  <a routerLink="/" class="my-2 btn btn-primary">Shop Now</a>
+</div>
 <!-- order card -->
 
 <div
-  class="card border rounded-3 border-primary m-2 p-2"
+  class="card border rounded-3 border-dark mx-2 my-4 p-2 shadow"
   *ngFor="let order of orderItems.reverse()"
 >
-  <div class="fs-4 d-flex">
+  <div
+    class="fs-4 d-flex bg-info-subtle border-bottom border-dark rounded-2 px-2 flex-wrap"
+  >
     <span>Order ID : {{ order.id }}</span>
-    <div class="ms-auto my-auto me-3">
+    <div class="ms-auto my-auto">
       Total : {{ order.attributes.payable_amount }}₹
     </div>
   </div>
-  <div class="details d-flex gap-3">
+  <div class="details d-flex gap-3 flex-wrap">
     <span class="fs-6"
       >Date : {{ order.attributes.order_date.slice(0, 10) }}</span
     >
@@ -40,12 +43,17 @@
           <th class="col-3">Total</th>
         </tr>
       </thead>
-      <tbody class="" *ngFor="let item of order.attributes.order_items">
-        <tr class="">
-          <td>{{ item.name }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.price }}</td>
-          <td>{{ item.price * item.quantity }}</td>
+      <tbody>
+        <tr *ngFor="let item of order.attributes.order_items">
+          <td>{{ item.attributes.product.data.attributes.product_name }}</td>
+          <td>{{ item.attributes.quantity }}</td>
+          <td>{{ item.attributes.product.data.attributes.price }}</td>
+          <td>
+            {{
+              item.attributes.product.data.attributes.price *
+                item.attributes.quantity
+            }}
+          </td>
         </tr>
       </tbody>
     </table>

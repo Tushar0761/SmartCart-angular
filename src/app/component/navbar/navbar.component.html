@@ -2,16 +2,7 @@
   <div class="container-fluid d-flex align-items-center">
     <a class="navbar-brand" routerLink="">Smart Cart</a>
 
-    <form
-      class="d-flex"
-      role="search"
-      *ngIf="
-        pathName != '/login' &&
-        pathName != '/sign-up' &&
-        pathName != '/profile' &&
-        pathName != '/cart'
-      "
-    >
+    <form class="d-flex" role="search" *ngIf="pathName === '/'">
       <input
         class="form-control me-2"
         type="search"

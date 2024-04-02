@@ -1,34 +1,72 @@
-<div class="border rounded-4 d-flex mx-1 my-2">
-  <div class="col-2 m-1">
-    <img
-      src="../../../assets/Img/echo.jpg"
-      alt="product img"
-      style="width: 100%; aspect-ratio: 1; object-fit: contain"
-    />
+<h1 class="text-center">Your Wishlist</h1>
+<hr />
+<div *ngIf="wishlistItems.length == 0" class="text-center">
+  <h5>There is no products in your Wishlist.</h5>
+  <a routerLink="/" class="btn btn-primary">Shop Now</a>
+</div>
+<div
+  *ngFor="let item of wishlistItems"
+  id="{{ item.id }}"
+  class="border rounded-4 d-flex mx-1 my-2"
+>
+  <div class="m-1">
+    <div class="fw-bold">
+      {{ item.attributes.product.data.attributes.product_name }}
+    </div>
+    <div>Price : {{ item.attributes.product.data.attributes.price }} ₹</div>
   </div>
-  <div>
-    <div class="fw-bold">Product 1</div>
-    <div>A fantastic product.</div>
-    <div>Price : 12 ₹</div>
-  </div>
-  <div class="ms-auto my-auto me-3">
-    <button class="btn btn-outline-danger">Remove</button>
+
+  <div class="ms-auto my-auto me-3 d-flex gap-3">
+    <button
+      class="btn btn-primary"
+      (click)="addToCart(item.attributes.product.data.id)"
+      *ngIf="!cartItemArray.includes(item.attributes.product.data.id)"
+    >
+      Add to Cart
+    </button>
+    <button
+      class="btn btn-success"
+      (click)="router.navigate(['/cart'])"
+      *ngIf="cartItemArray.includes(item.attributes.product.data.id)"
+    >
+      View in Cart
+    </button>
+    <button
+      class="btn btn-outline-danger"
+      (click)="removeFromWishlist(item.id)"
+    >
+      <i class="bi bi-trash"></i>
+    </button>
   </div>
 </div>
-<div class="border rounded-4 d-flex mx-1 my-2">
-  <div class="col-2 m-1">
-    <img
-      src="../../../assets/Img/echo.jpg"
-      alt="product img"
-      style="width: 100%; aspect-ratio: 1; object-fit: contain"
-    />
-  </div>
-  <div>
-    <div class="fw-bold">Product 1</div>
-    <div>A fantastic product.</div>
-    <div>Price : 12 ₹</div>
-  </div>
-  <div class="ms-auto my-auto me-3">
-    <button class="btn btn-outline-danger">Remove</button>
-  </div>
-</div>
+
+<!-- {
+	"0": {
+		"id": 3,
+		"attributes": {
+			"createdAt": "2024-04-02T10:01:53.662Z",
+			"updatedAt": "2024-04-02T10:01:56.700Z",
+			"publishedAt": "2024-04-02T10:01:56.695Z",
+			"product": {
+				"data": {
+					"id": 11,
+					"attributes": {
+						"product_name": "iPhone X",
+						"price": 899,
+						"product_description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+						"is_deleted": false,
+						"manufacturer_company": null,
+						"manufacture_date": null,
+						"weight": null,
+						"color": null,
+						"expiration_date": null,
+						"dimension": null,
+						"createdAt": "2024-04-01T10:09:09.000Z",
+						"updatedAt": "2024-04-01T10:09:09.000Z",
+						"publishedAt": "2024-04-01T10:09:09.000Z"
+					}
+				}
+			}
+		}
+	}
+} -->

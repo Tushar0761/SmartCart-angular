@@ -7,13 +7,13 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  isLoggedIn =
+    localStorage.getItem('isLoggedIn') && localStorage.getItem('_token')
+      ? true
+      : false;
+
   constructor(private auth: AuthService) {}
   ngOnInit() {
-    let isLoggedIn =
-      localStorage.getItem('isLoggedIn') && localStorage.getItem('_token')
-        ? true
-        : false;
-
-    this.auth.setAuthStatus(isLoggedIn);
+    this.auth.setAuthStatus(this.isLoggedIn);
   }
 }

@@ -32,18 +32,6 @@ export class CartService {
     return this.http.post(environment.cartUrl, cartProduct, { headers });
   }
 
-  private cartItems: number[] = [];
-
-  addToCartItems(productId: number) {
-    if (!this.cartItems.includes(productId)) {
-      this.cartItems.push(productId);
-    }
-  }
-
-  removeFromCart(productId: number) {
-    this.cartItems = this.cartItems.filter((id) => id !== productId);
-  }
-
   updateCartItemQuantity(cartItemId: number, quantity: number) {
     const url = `${environment.cartUrl}/${cartItemId}`;
     const token = localStorage.getItem('_token') || '';

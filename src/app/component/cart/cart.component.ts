@@ -24,6 +24,9 @@ export class CartComponent {
   }
 
   ngOnDestroy() {
+    if (this.redirect) {
+      return;
+    }
     let updatedCart = this.updateCartQuantity();
 
     updatedCart.forEach((item) => {
@@ -38,6 +41,7 @@ export class CartComponent {
     });
   }
 
+  redirect = false;
   placeOrder() {
     let updatedCart = this.updateCartQuantity();
 
@@ -46,6 +50,7 @@ export class CartComponent {
         .updateCartItemQuantity(item.id, item.quantity)
         .subscribe({
           next: (response) => {
+            this.redirect = true;
             this.router.navigate(['/order']);
           },
           error: (err) => {
@@ -107,16 +112,11 @@ export class CartComponent {
       return;
     }
 
-    let idToRemove = cartId; // Example id to remove
-    console.table(this.cartItems);
-
-    this.cartItems = this.cartItems.filter((item) => item.id !== idToRemove);
-
-    console.table(this.cartItems);
+    this.cartItems = this.cartItems.filter((item) => item.id !== cartId);
 
     this.cartService.deleteCartItem(cartId).subscribe({
       next: (response) => {
-        console.log('Cart item deleted successfully:', response);
+        this.getGrandTotal();
       },
       error: (error) => {
         console.error('Error deleting cart item:', error);
