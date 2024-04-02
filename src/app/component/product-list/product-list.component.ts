@@ -11,6 +11,8 @@ import { WishlistService } from 'src/app/services/wishlist.service';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent {
+  userId: any = 0;
+
   isLoggedIn = false;
   productArray: any = [];
   cartItemArray: any = [];
@@ -23,6 +25,7 @@ export class ProductListComponent {
     private wishlistService: WishlistService,
     private auth: AuthService
   ) {
+    this.userId = this.auth.getUserId();
     this.isLoggedIn = this.auth.getAuthStatus();
   }
 
@@ -33,9 +36,7 @@ export class ProductListComponent {
   }
 
   cartItemProductsIds() {
-    const userId: any = localStorage.getItem('id');
-
-    this.cartService.getCartItems(userId).subscribe({
+    this.cartService.getCartItems(this.userId).subscribe({
       next: (response) => {
         let tempArr = response.data;
         tempArr.forEach((item: any) =>
@@ -82,7 +83,7 @@ export class ProductListComponent {
       data: {
         product: productId,
         quantity: 1,
-        user_detail: localStorage.getItem('id'),
+        user_detail: this.userId,
       },
     };
 

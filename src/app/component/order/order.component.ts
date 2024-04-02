@@ -10,7 +10,7 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent {
-  userId = localStorage.getItem('id');
+  userId: any = 0;
   isLoggedIn = false;
 
   constructor(
@@ -21,6 +21,7 @@ export class OrderComponent {
   ) {}
 
   ngOnInit() {
+    this.userId = this.auth.getUserId();
     this.isLoggedIn = this.auth.getAuthStatus();
     this.getCartItems(this.userId);
   }
@@ -55,7 +56,7 @@ export class OrderComponent {
     });
   }
   cartItems: any[] = [];
-  order_items: string = '';
+  order_items: any = '';
   carts: number[] = [];
 
   calculateOrderItemsAndCarts() {
@@ -63,10 +64,10 @@ export class OrderComponent {
   }
 
   placeOrder() {
-    let userId = localStorage.getItem('id');
     const orderDate = new Date().toISOString();
     this.calculateOrderItemsAndCarts();
     this.calculateAmount();
+    this.order_items = this.cartItems;
 
     const orderData = {
       data: {
@@ -77,7 +78,7 @@ export class OrderComponent {
         payable_amount: this.payableAmount,
         carts: this.carts,
         order_items: this.order_items,
-        user_detail: userId,
+        user_detail: this.userId,
       },
     };
 

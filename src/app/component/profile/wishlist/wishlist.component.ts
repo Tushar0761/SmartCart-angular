@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 
@@ -9,11 +10,16 @@ import { WishlistService } from 'src/app/services/wishlist.service';
   styleUrls: ['./wishlist.component.css'],
 })
 export class WishlistComponent {
+  userId: any = 0;
+
   constructor(
+    private auth: AuthService,
     private wishlistService: WishlistService,
     private cartService: CartService,
     public router: Router
-  ) {}
+  ) {
+    this.userId = this.auth.getUserId();
+  }
 
   ngOnInit() {
     this.cartItemProductsIds();
@@ -34,9 +40,7 @@ export class WishlistComponent {
   cartItemArray: any = [];
 
   cartItemProductsIds() {
-    const userId: any = localStorage.getItem('id');
-
-    this.cartService.getCartItems(userId).subscribe({
+    this.cartService.getCartItems(this.userId).subscribe({
       next: (response) => {
         let tempArr = response.data;
         tempArr.forEach((item: any) =>
@@ -54,7 +58,7 @@ export class WishlistComponent {
       data: {
         product: id,
         quantity: 1,
-        user_detail: localStorage.getItem('id'),
+        user_detail: this.userId,
       },
     };
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -7,18 +8,19 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./account.component.css'],
 })
 export class AccountComponent {
+  userId: any = 0;
   userDetails: any = {};
 
-  constructor(private user: UserService) {}
+  constructor(private user: UserService, private auth: AuthService) {
+    this.userId = this.auth.getUserId();
+  }
 
   ngOnInit() {
     this.getUserProfile();
   }
 
   getUserProfile() {
-    let token = localStorage.getItem('_token') || '';
-
-    this.user.getUserProfile(token).subscribe({
+    this.user.getUserProfile().subscribe({
       next: (response: any) => {
         this.userDetails = response;
         this.newUserDetails = {
@@ -84,10 +86,7 @@ export class AccountComponent {
       return;
     }
 
-    let id = JSON.parse(localStorage.getItem('id') || 'null') || '';
-    let token = localStorage.getItem('_token') || '';
-
-    this.user.updateUserDetails(id, token, this.newUserDetails).subscribe({
+    this.user.updateUserDetails(this.newUserDetails).subscribe({
       next: (response) => {
         alert('User details updated successfully');
         this.showUpdateForm = false;

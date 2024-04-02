@@ -1,36 +1,25 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WishlistService {
   userId: number = 0;
-  token: string = '';
 
-  constructor(private http: HttpClient) {
-    this.userId = Number(localStorage.getItem('id'));
-    this.token = localStorage.getItem('_token') || '';
+  constructor(private http: HttpClient, private auth: AuthService) {
+    this.userId = this.auth.getUserId();
   }
 
   getWishlist() {
     const url = `http://localhost:1337/api/wish-lists?populate=product&&filters[user_detail][id][$eq][0]=${this.userId}`;
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.token}`,
-    });
-
-    return this.http.get<any>(url, { headers });
+    return this.http.get<any>(url);
   }
 
   addTOWishlist(productId: number) {
     const url = `http://localhost:1337/api/wish-lists`;
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.token}`,
-    });
 
     const body = {
       data: {
@@ -39,16 +28,11 @@ export class WishlistService {
       },
     };
 
-    return this.http.post<any>(url, body, { headers });
+    return this.http.post<any>(url, body);
   }
   removeFromWishlist(id: any) {
     const url = `http://localhost:1337/api/wish-lists/${id}`;
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.token}`,
-    });
-
-    return this.http.delete<any>(url, { headers });
+    return this.http.delete<any>(url);
   }
 }

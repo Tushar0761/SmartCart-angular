@@ -1,34 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  constructor(private http: HttpClient) {}
+  userId: any = 0;
+  constructor(private http: HttpClient, private auth: AuthService) {
+    this.userId = this.auth.getUserId();
+  }
 
   placeOrder(orderData: any) {
-    const token = localStorage.getItem('_token') || '';
-    return this.http.post<any>(environment.orderUrl, orderData, {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      }),
-    });
+    return this.http.post<any>(environment.orderUrl, orderData);
   }
 
   getOrders(): any {
-    const token = localStorage.getItem('_token') || '';
-    const id = localStorage.getItem('id');
+    const url = `http://localhost:1337/api/orders?filters[user_detail][id][$eq][0]=${this.userId}`;
 
-    const url = `http://localhost:1337/api/orders?filters[user_detail][id][$eq][0]=${id}`;
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-
-    return this.http.get<any>(url, { headers });
+    return this.http.get<any>(url);
   }
 }

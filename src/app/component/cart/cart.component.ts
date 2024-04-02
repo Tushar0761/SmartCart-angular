@@ -10,6 +10,7 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartComponent {
   isLoggedIn = false;
+  userId = 0;
 
   constructor(
     private router: Router,
@@ -18,9 +19,9 @@ export class CartComponent {
   ) {}
 
   ngOnInit() {
-    const userId = localStorage.getItem('id');
+    this.userId = this.auth.getUserId();
     this.isLoggedIn = this.auth.getAuthStatus();
-    this.getCartItems(userId);
+    this.getCartItems(this.userId);
   }
 
   ngOnDestroy() {

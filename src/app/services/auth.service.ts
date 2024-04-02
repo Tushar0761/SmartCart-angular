@@ -11,6 +11,16 @@ export class AuthService {
   private isAuthenticatedSubject: BehaviorSubject<boolean>;
   public isAuthenticated$: Observable<boolean>;
 
+  id: any = localStorage.getItem('id') || 0;
+
+  getUserId() {
+    return this.id;
+  }
+  setUserId(id: any) {
+    this.id = id;
+    localStorage.setItem('id', id);
+  }
+
   constructor(private http: HttpClient) {
     this.isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
     this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();

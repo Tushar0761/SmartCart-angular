@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -7,6 +8,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./address.component.css'],
 })
 export class AddressComponent {
+  userId: any = 0;
+
   userAddresses: any = [];
   addressValidation: any = {};
 
@@ -17,7 +20,9 @@ export class AddressComponent {
     cityId: '',
     stateId: '',
   };
-  constructor(private user: UserService) {
+  constructor(private user: UserService, private auth: AuthService) {
+    this.userId = this.auth.getUserId();
+
     this.addressValidation = {
       line1: [true, 'Please Provide Valid Input.'],
       line2: [true, 'Please Provide Valid Input.'],
@@ -30,9 +35,7 @@ export class AddressComponent {
     this.getUserProfile();
   }
   getUserProfile() {
-    let token = localStorage.getItem('_token') || '';
-
-    this.user.getUserProfile(token).subscribe({
+    this.user.getUserProfile().subscribe({
       next: (response: any) => {
         this.userAddresses = response.user_addresses;
       },
@@ -70,15 +73,13 @@ export class AddressComponent {
       return;
     }
 
-    let id = JSON.parse(localStorage.getItem('id') || '');
-
     const addressData = {
-      user_details: id,
+      user_details: this.userId,
       address_line_1: this.addressForm.line1,
       address_line_2: this.addressForm.line2,
       landmark: this.addressForm.landmark,
-      isDefault: false, 
-      city: this.addressForm.cityId, 
+      isDefault: false,
+      city: this.addressForm.cityId,
     };
 
     this.user.addNewAddress(addressData).subscribe({
