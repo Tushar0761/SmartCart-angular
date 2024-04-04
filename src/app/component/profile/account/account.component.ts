@@ -8,12 +8,9 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./account.component.css'],
 })
 export class AccountComponent {
-  userId: any = 0;
   userDetails: any = {};
 
-  constructor(private user: UserService, private auth: AuthService) {
-    this.userId = this.auth.getUserId();
-  }
+  constructor(private user: UserService, private auth: AuthService) {}
 
   ngOnInit() {
     this.getUserProfile();

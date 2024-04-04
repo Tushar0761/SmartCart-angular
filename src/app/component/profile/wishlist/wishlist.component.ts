@@ -10,16 +10,12 @@ import { WishlistService } from 'src/app/services/wishlist.service';
   styleUrls: ['./wishlist.component.css'],
 })
 export class WishlistComponent {
-  userId: any = 0;
-
   constructor(
     private auth: AuthService,
     private wishlistService: WishlistService,
     private cartService: CartService,
     public router: Router
-  ) {
-    this.userId = this.auth.getUserId();
-  }
+  ) {}
 
   ngOnInit() {
     this.cartItemProductsIds();
@@ -40,7 +36,7 @@ export class WishlistComponent {
   cartItemArray: any = [];
 
   cartItemProductsIds() {
-    this.cartService.getCartItems(this.userId).subscribe({
+    this.cartService.getCartItems().subscribe({
       next: (response) => {
         let tempArr = response.data;
         tempArr.forEach((item: any) =>
@@ -53,18 +49,10 @@ export class WishlistComponent {
     });
   }
 
-  addToCart(id: any) {
-    const cartItemPayload = {
-      data: {
-        product: id,
-        quantity: 1,
-        user_detail: this.userId,
-      },
-    };
-
-    this.cartService.addCart(cartItemPayload).subscribe(
+  addToCart(productId: any) {
+    this.cartService.addCart(productId).subscribe(
       (response: any) => {
-        this.cartItemArray.push(id);
+        this.cartItemArray.push(productId);
       },
       (error: any) => {
         console.error('Error adding product to cart:', error);

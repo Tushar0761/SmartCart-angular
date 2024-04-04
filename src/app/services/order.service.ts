@@ -9,7 +9,9 @@ import { AuthService } from './auth.service';
 export class OrderService {
   userId: any = 0;
   constructor(private http: HttpClient, private auth: AuthService) {
-    this.userId = this.auth.getUserId();
+    this.auth.userId$.subscribe((userId: number) => {
+      this.userId = userId;
+    });
   }
 
   placeOrder(orderData: any) {

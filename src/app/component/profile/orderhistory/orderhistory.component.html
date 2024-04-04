@@ -1,4 +1,10 @@
-
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+  crossorigin="anonymous"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <div class="fs-bold fs-3 text-center">Your Orders</div>
 
@@ -8,7 +14,10 @@
 >
   You Dont Order Anything Yet.
   <br />
-  <a routerLink="/" class="my-2 btn btn-primary">Shop Now</a>
+  <a routerLink="/" class="my-2 btn btn-primary">
+    <i class="bi bi-shop"></i>
+    Shop Now</a
+  >
 </div>
 <!-- order card -->
 
@@ -57,5 +66,11 @@
         </tr>
       </tbody>
     </table>
+    <span class="border-bottom pb-2 border-dark">
+      Shipping Charges : 50 ₹
+    </span>
+    <span class="border-start pb-2 border-bottom border-dark ps-2"
+      >Total Tax : {{ order.attributes.tax_amount }} ₹</span
+    >
   </div>
 </div>

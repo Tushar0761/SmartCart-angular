@@ -10,7 +10,6 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartComponent {
   isLoggedIn = false;
-  userId = 0;
 
   constructor(
     private router: Router,
@@ -19,9 +18,8 @@ export class CartComponent {
   ) {}
 
   ngOnInit() {
-    this.userId = this.auth.getUserId();
     this.isLoggedIn = this.auth.getAuthStatus();
-    this.getCartItems(this.userId);
+    this.getCartItems();
   }
 
   ngOnDestroy() {
@@ -72,8 +70,8 @@ export class CartComponent {
 
   cartItems: any[] = [];
 
-  getCartItems(userId: any) {
-    this.cartService.getCartItems(userId).subscribe({
+  getCartItems() {
+    this.cartService.getCartItems().subscribe({
       next: (response) => {
         this.cartItems = response.data;
 

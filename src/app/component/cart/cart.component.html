@@ -1,3 +1,10 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+  crossorigin="anonymous"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <section
   *ngIf="!isLoggedIn"
@@ -18,20 +25,24 @@
 
     <div *ngIf="cartItems.length == 0" class="text-center">
       <h5>There is no products in your carts.</h5>
-      <a routerLink="/" class="btn btn-primary">Shop Now</a>
+      <a routerLink="/" class="btn btn-primary">
+        <i class="bi bi-shop"></i> Shop Now</a
+      >
     </div>
     <div
       *ngFor="let cart of cartItems; let index"
-      class="border rounded-4 m-1"
+      class="border rounded-3 m-1 p-2"
       id="{{ cart.id }}"
     >
-      <div class="d-flex justify-content-between">
-        <div class="mx-3">
+      <div class="d-flex flex-wrap">
+        <div class="col-6 col-md-5 col-lg-4 d-flex flex-wrap flex-column">
           <h4>{{ cart.attributes.product.data.attributes.product_name }}</h4>
-
-          <p>Price : {{ cart.attributes.product.data.attributes.price }}</p>
+          <br />
+          <span
+            >Price : {{ cart.attributes.product.data.attributes.price }}</span
+          >
         </div>
-        <div class="btn-group my-auto">
+        <div class="btn-group my-auto ms-auto">
           <button class="btn btn-success" (click)="incrementQuantity(index)">
             +
           </button>
@@ -43,7 +54,9 @@
           </button>
         </div>
         <div class="d-flex col-4 flex-wrap">
-          <div class="col-8 my-auto text-center fs-5 border m-1 p-1 bg-light">
+          <div
+            class="col-8 my-auto text-center fs-5 border m-1 mx-2 p-1 bg-light"
+          >
             {{
               cart.attributes.product.data.attributes.price *
                 cart.attributes.quantity
@@ -79,6 +92,7 @@
       class="btn btn-primary ms-auto mx-3 col-6 col-md-4 col-lg-3"
       (click)="placeOrder()"
     >
+      <i class="bi bi-cart-check"></i>
       Order
     </button>
   </div>

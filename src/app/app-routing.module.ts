@@ -7,6 +7,8 @@ import { RegisterComponent } from './component/register/register.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { CartComponent } from './component/cart/cart.component';
 import { OrderComponent } from './component/order/order.component';
+import { AboutUsComponent } from './component/about-us/about-us.component';
+import { ProjectDetailsComponent } from './component/project-details/project-details.component';
 
 const routes: Routes = [
   { path: '', component: ProductListComponent },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'cart', component: CartComponent },
   { path: 'order', component: OrderComponent },
+  { path: 'aboutus', component: AboutUsComponent },
+  { path: 'projectdetails', component: ProjectDetailsComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

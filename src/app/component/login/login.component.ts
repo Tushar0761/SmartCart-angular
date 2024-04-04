@@ -31,17 +31,17 @@ export class LoginComponent {
     this.auth.login(this.formData).subscribe({
       next: (response: any) => {
         this.validateData.login[0] = true;
-
-        localStorage.setItem('isLoggedIn', 'true');
-
         let token = response.jwt;
 
+        localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('_token', token);
-        localStorage.setItem('id', JSON.stringify(response.user.id));
+        localStorage.setItem('id', response.user.id);
+        console.log(response.user.id);
 
         this.router.navigate(['/profile']);
-
+        this.auth.setUserId(response.user.id);
         this.auth.setAuthStatus(true);
+        this.auth.setProfileName(response.user.username);
       },
       error: (error) => {
         this.validateData.login[0] = false;
@@ -49,7 +49,6 @@ export class LoginComponent {
           error?.error?.error?.message || 'Something Wrong...Please Try again';
       },
     });
-
   }
 
   validateData = {
@@ -95,4 +94,3 @@ export class LoginComponent {
     localStorage.removeItem('id');
   }
 }
-

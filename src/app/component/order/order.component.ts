@@ -10,7 +10,6 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent {
-  userId: any = 0;
   isLoggedIn = false;
 
   constructor(
@@ -21,9 +20,8 @@ export class OrderComponent {
   ) {}
 
   ngOnInit() {
-    this.userId = this.auth.getUserId();
     this.isLoggedIn = this.auth.getAuthStatus();
-    this.getCartItems(this.userId);
+    this.getCartItems();
   }
 
   grandTotal: number = 0;
@@ -44,8 +42,8 @@ export class OrderComponent {
     this.payableAmount = Number(this.payableAmount.toFixed(2));
   }
 
-  getCartItems(userId: any) {
-    this.cartService.getCartItems(userId).subscribe({
+  getCartItems() {
+    this.cartService.getCartItems().subscribe({
       next: (response) => {
         this.cartItems = response.data;
         this.calculateAmount();
@@ -78,7 +76,7 @@ export class OrderComponent {
         payable_amount: this.payableAmount,
         carts: this.carts,
         order_items: this.order_items,
-        user_detail: this.userId,
+        user_detail: this.auth.getUserId(),
       },
     };
 

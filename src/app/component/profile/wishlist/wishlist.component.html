@@ -2,7 +2,10 @@
 <hr />
 <div *ngIf="wishlistItems.length == 0" class="text-center">
   <h5>There is no products in your Wishlist.</h5>
-  <a routerLink="/" class="btn btn-primary">Shop Now</a>
+  <a routerLink="/" class="btn btn-primary">
+    <i class="bi bi-shop"></i>
+    Shop Now</a
+  >
 </div>
 <div
   *ngFor="let item of wishlistItems"

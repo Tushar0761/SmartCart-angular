@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class OrderhistoryComponent {
   orderItems: any = [];
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.loadOrders();

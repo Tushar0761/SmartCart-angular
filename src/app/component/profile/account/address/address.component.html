@@ -1,3 +1,4 @@
+0
 <div class="card p-3">
   <h3>Address</h3>
   <div
@@ -10,11 +11,13 @@
       </div>
       <div class="ms-2">
         <span
-          >{{ address.address_line_1 }}, {{ address.address_line_2 }},
-          {{ address.city?.name }}</span
-        >
+          >{{ address.address_line_1 }},
+          {{ address.address_line_2 && address.address_line_2 + "," }}
+          <span>Landmark : </span> <span>{{ address.landmark }}</span>
+        </span>
         <br />
-        <span>Landmark : </span> <span>{{ address.landmark }}</span>
+        <span>City : </span>
+        <span> {{ address.city?.name }} ,{{ address.city?.state?.name }}</span>
       </div>
     </div>
   </div>
@@ -83,7 +86,7 @@
           (change)="onStateChange()"
           required
         >
-          <option>Select one</option>
+          <option selected value="">Select one</option>
           <option *ngFor="let state of states" value="{{ state.id }}">
             {{ state.attributes.name }}
           </option>
@@ -108,7 +111,7 @@
           [disabled]="!addressForm.stateId"
           required
         >
-          <option value="">Select one</option>
+          <option value="" selected>Select one</option>
           <option *ngFor="let city of cities" [value]="city.id">
             {{ city.attributes.name }}
           </option>

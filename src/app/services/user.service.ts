@@ -8,8 +8,11 @@ import { AuthService } from './auth.service';
 })
 export class UserService {
   userId: any = 0;
+
   constructor(private http: HttpClient, private auth: AuthService) {
-    this.userId = this.auth.getUserId();
+    this.auth.userId$.subscribe((userId: number) => {
+      this.userId = userId;
+    });
   }
 
   getUserProfile() {
@@ -25,7 +28,6 @@ export class UserService {
 
   addNewAddress(addressData: any) {
     const url = environment.userAddressUrl;
-
     return this.http.post(url, { data: addressData });
   }
 

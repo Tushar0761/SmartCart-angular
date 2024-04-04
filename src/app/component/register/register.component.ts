@@ -32,7 +32,6 @@ export class RegisterComponent {
 
     this.auth.setAuthStatus(false);
     localStorage.removeItem('id');
-
   }
 
   register() {
@@ -49,15 +48,16 @@ export class RegisterComponent {
     this.auth.register(data).subscribe({
       next: (response: any) => {
         this.validateData.register[0] = true;
-        localStorage.setItem('isLoggedIn', 'true');
         let token = response.jwt;
 
+        localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('_token', token);
-        localStorage.setItem('id', JSON.stringify(response.user.id));
+        localStorage.setItem('id', response.user.id);
 
-        this.router.navigate(['/profile']);
-
+        this.auth.setUserId(response.user.id);
+        this.auth.setProfileName(response.user.username);
         this.auth.setAuthStatus(true);
+        this.router.navigate(['/profile']);
       },
       error: (error) => {
         this.validateData.register[0] = false;

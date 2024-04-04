@@ -23,6 +23,8 @@ import { OrderhistoryComponent } from './component/profile/orderhistory/orderhis
 import { AddressComponent } from './component/profile/account/address/address.component';
 
 import { InterceptorInterceptor } from './services/interceptors/interceptor.interceptor';
+import { AboutUsComponent } from './component/about-us/about-us.component';
+import { ProjectDetailsComponent } from './component/project-details/project-details.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { InterceptorInterceptor } from './services/interceptors/interceptor.inte
     WishlistComponent,
     OrderhistoryComponent,
     AddressComponent,
+    AboutUsComponent,
+    ProjectDetailsComponent,
   ],
   imports: [
     BrowserModule,

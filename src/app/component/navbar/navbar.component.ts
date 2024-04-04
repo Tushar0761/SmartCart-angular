@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent {
   pathName: string;
+  username: string = '';
 
   isLoggedIn = false;
   constructor(public auth: AuthService, private router: Router) {
@@ -23,6 +24,10 @@ export class NavbarComponent {
   ngOnInit() {
     this.auth.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
       this.isLoggedIn = isAuthenticated;
+    });
+
+    this.auth.profileName$.subscribe((profileName: string) => {
+      this.username = profileName;
     });
   }
 }

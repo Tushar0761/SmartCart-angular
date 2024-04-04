@@ -3,7 +3,7 @@ export const environment = {
   registerUrl: 'http://localhost:1337/api/auth/local/register',
   profileUrl: 'http://localhost:1337/api/users/me',
   getAddressUrl:
-    'http://localhost:1337/api/users/me?populate[0]=user_addresses&populate[1]=user_addresses.city',
+    'http://localhost:1337/api/users/me?populate[0]=user_addresses&populate[1]=user_addresses.city.state',
 
   userAddressUrl: 'http://localhost:1337/api/user-addresses',
   getCityByStateUrl:
@@ -11,7 +11,7 @@ export const environment = {
   getAllStatesUrl: 'http://localhost:1337/api/states',
 
   getAllProductsUrl:
-    'http://localhost:1337/api/products?&populate[category][fields][0]=category_name&populate[product_image][fields][1]=url&populate[wish_lists][fields][2]=id',
+    'http://localhost:1337/api/products?&populate[category][fields][0]=category_name&populate[product_image][fields][1]=url&pagination[pageSize]=12',
 
   // z
   baseUrl: 'http://localhost:1337/',
@@ -20,7 +20,7 @@ export const environment = {
     'api/products?pagination[page]=1&pagination[pageSize]=10&populate[category][fields][0]=category_name&populate[product_image][fields][1]=url&populate[wish_lists][fields][2]=id&filters[product_name][$contains][0]=',
 
   product_by_id: 'api/products/id',
-
+  getAllCategories: 'http://localhost:1337/api/categories',
   cartUrl: 'http://localhost:1337/api/carts',
   orderUrl: 'http://localhost:1337/api/orders',
 };

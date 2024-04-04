@@ -8,8 +8,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./address.component.css'],
 })
 export class AddressComponent {
-  userId: any = 0;
-
+  userId = 0;
   userAddresses: any = [];
   addressValidation: any = {};
 
@@ -21,8 +20,6 @@ export class AddressComponent {
     stateId: '',
   };
   constructor(private user: UserService, private auth: AuthService) {
-    this.userId = this.auth.getUserId();
-
     this.addressValidation = {
       line1: [true, 'Please Provide Valid Input.'],
       line2: [true, 'Please Provide Valid Input.'],
@@ -33,6 +30,10 @@ export class AddressComponent {
   }
   ngOnInit() {
     this.getUserProfile();
+
+    this.auth.userId$.subscribe((userId: number) => {
+      this.userId = userId;
+    });
   }
   getUserProfile() {
     this.user.getUserProfile().subscribe({
@@ -74,7 +75,7 @@ export class AddressComponent {
     }
 
     const addressData = {
-      user_details: this.userId,
+      user_details: this.auth.getUserId(),
       address_line_1: this.addressForm.line1,
       address_line_2: this.addressForm.line2,
       landmark: this.addressForm.landmark,
@@ -154,5 +155,6 @@ export class AddressComponent {
     } else {
       this.cities = [];
     }
+    this.addressForm.cityId = '';
   }
 }

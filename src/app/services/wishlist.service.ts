@@ -9,7 +9,9 @@ export class WishlistService {
   userId: number = 0;
 
   constructor(private http: HttpClient, private auth: AuthService) {
-    this.userId = this.auth.getUserId();
+    this.auth.userId$.subscribe((userId: number) => {
+      this.userId = userId;
+    });
   }
 
   getWishlist() {

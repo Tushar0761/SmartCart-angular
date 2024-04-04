@@ -16,13 +16,24 @@
     <hr />
     <div *ngIf="cartItems.length == 0" class="text-center">
       <h5>There is no products to order.</h5>
+      <a routerLink="/" class="btn btn-primary">
+        <i class="bi bi-shop"></i>
+        Shop Now</a
+      >
     </div>
     <div *ngIf="isOrderPlaced" class="text-center alert alert-success">
       <h5>
         Order Placed.
+
+        <i class="bi bi-box-fill"></i>
         <br />
         Thank you for shopping with us.
+        <i class="bi bi-emoji-laughing"></i>
       </h5>
+      <a routerLink="/" class="btn btn-outline-danger">
+        <i class="bi bi-shop"></i>
+        Shop More</a
+      >
     </div>
     <div
       *ngIf="cartItems.length !== 0 && !isOrderPlaced"
@@ -89,6 +100,7 @@
         class="btn btn-success col-6 col-md-4 col-lg-3 ms-lg-auto"
       >
         Place Order
+        <i class="bi bi-bag-check"></i>
       </button>
     </div>
   </div>
